@@ -14,18 +14,18 @@ RUN  export DEBIAN_FRONTEND=noninteractive && \
      ln -s /usr/bin/jwm /home/abc/.vnc/xstartup && \
      chown -R abc:abc /home/abc 
 
-# Set environment variables.
+# Set environment variables
 ENV HOME /root
 ENV USER root
 ENV DISPLAY :0
 ENV PGID 1000
 ENV PUID 1000
 
-# Define working directory.
+# Define working directory
 WORKDIR /root
 
 # Expose VNC port
 EXPOSE 5900
 
-# Define default command.
+# Define default command
 ENTRYPOINT ["/bin/entrypoint.sh"]
