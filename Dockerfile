@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:trusty
 
 ADD entrypoint.sh /bin/entrypoint.sh
 
@@ -9,23 +9,23 @@ RUN  export DEBIAN_FRONTEND=noninteractive && \
      echo 'deb https://linuxdesktopcloud.mail.ru/deb default free' > /etc/apt/sources.list.d/mail.ru-cloud.list && \
      apt-get update && \
      apt-get -y --force-yes install mail.ru-cloud vnc4server python expect jwm && \
-     mkdir -p /root/.vnc && \
-     ln -s /usr/bin/jwm /root/.vnc/xstartup && \
-     mkdir /root/Cloud\ Mail.Ru && \
-     locale-gen ru_RU.UTF-8
+     adduser --disabled-password --gecos "" abc && \
+     mkdir -p /home/abc/.vnc && \
+     ln -s /usr/bin/jwm /home/abc/.vnc/xstartup && \
+     chown -R abc:abc /home/abc 
 
 # Set environment variables.
-ENV LANG ru_RU.UTF-8
 ENV HOME /root
 ENV USER root
 ENV DISPLAY :0
+ENV PGID 1000
+ENV PUID 1000
 
 # Define working directory.
 WORKDIR /root
 
-# Define default command.
-# vncserver
-
-#CMD ["bash"]
+# Expose VNC port
 EXPOSE 5900
+
+# Define default command.
 ENTRYPOINT ["/bin/entrypoint.sh"]
